@@ -3,16 +3,23 @@ function Update()
     local file = io.open(filepath, "r")  -- Open file in read mode
 
     if file then
-        for line in file:lines() do  -- Read the file line by line
-            local key, value = string.match(line, "(%w+)%s*=%s*(%d+)")  -- Match "Cash=857"
+        local cash, total
+        for line in file:lines() do  -- Read file line by line
+            local key, value = string.match(line, "(%w+)%s*=%s*([%d,%.]+)")  -- Match numbers with commas
             if key == "Cash" then
-                SKIN:Bang("!SetVariable", "Cash", value)  -- Update Rainmeter variable
-                file:close()  -- Close file
-                return value  -- Return extracted value
+                cash = string.gsub(value, ",", "")  -- Remove commas
+                cash = math.floor(tonumber(cash))
+            elseif key == "Total" then
+                total = string.gsub(value, ",", "")  -- Remove commas
+                total = math.floor(tonumber(total))
             end
         end
-        file:close()  -- Close file if no match is found
+        file:close()  -- Close file after reading
+
+        -- Update Rainmeter variables only if values were found
+        if cash then SKIN:Bang("!SetVariable", "Cash", cash) end
+        if total then SKIN:Bang("!SetVariable", "Total", total) end
     end
     
-    return "Error"  -- Return an error message if file is missing or no value is found
+    return "Updated"  -- Return success message
 end

@@ -1,2 +1,5 @@
 @Vault/
 illustro/
+Milestone/@Resources/Scripts/FrequencyData.lua
+.gitignore
+*.inc
