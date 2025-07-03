@@ -16,6 +16,9 @@ function Update()
             elseif key == "Total" then
                 total = value
                 total = removeTrailingDecimal(total)
+            elseif key == "SoFar" then
+                sofar = value
+                sofar = removeTrailingDecimal(sofar)
             end
         end
         file:close()  -- Close file after reading
@@ -23,6 +26,7 @@ function Update()
         -- Update Rainmeter variables only if values were found
         if cash then SKIN:Bang("!SetVariable", "Cash", cash) end
         if total then SKIN:Bang("!SetVariable", "Total", total) end
+        if sofar then SKIN:Bang("!SetVariable", "SoFar", sofar) end
     end
     
     return "Updated"  -- Return success message
